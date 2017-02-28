@@ -16,6 +16,25 @@
 
         // Initialize the GL context
         gl = initWebGL(canvas);
+
+        //？？？ 在这个情况下，start函数执行完毕后，canvas变量所指向的对象的指针值将会保存在gl里，即该对象还被gl所引用，因此没有被销毁。 但canvas这个局部变量名本身被销毁了么？ start的执行环境对象销毁以后，canvas这个属性就会被销毁吗？如果canvas变量这个属性没被销毁，其执行环境对象会一直存在吗？
+        // 个人推测： start的执行环境对象在start函数执行完毕后被销毁，canvas作为属性也被销毁，gl里拥有原来canvas变量所含有的指针值，直接指向相应的对象，所以该对象依然留在内存中，被gl变量所引用（以哪种形式？）。
+        // 与闭包的区别？：个人推测，闭包时（子函数直接执行，或子函数被保存到变量中时）外部函数的执行环境对象不会被销毁，因此相应的局部变量也都依然存活。是不是也意味着，如果一个函数作用域内的所有子函数的执行环境对象都被销毁或子函数均失去引用之后，该父函数如果也已执行完毕，其执行环境对象引用数也就会归零，将会被销毁。
+
+        // Only continue if WebGL is available and working
+        if(!gl){
+            return;
+        }
+
+        // Set clear color to black, fully opaque
+        gl.clearColor(0.0,0.0,0.0,1.0);
+        // Enable depth testing
+        gl.enable(gl.DEPTH_TEST);
+        // Near things obsure far things
+        gl.depthFunc(gl.LEQUAL);
+        // Clear the color as well as the depth buffer.
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
     }
 
     function initWebGL(canvas){
@@ -26,10 +45,13 @@
 
         // If we don't have a GL context, give up now
         if(!gl){
-            alert('Un')
+            alert('Unable to initialize WebGL. Your browser may not support it.')
         }
+
+        return gl;
     }
 
+start();
 
 
 
