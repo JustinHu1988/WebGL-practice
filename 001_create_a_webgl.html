@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My first WebGL</title>
+    <style>
+        canvas{border:2px dotted blue;}
+    </style>
+</head>
+<body onload="getGLContext()">
+<canvas id="my-first-webgl" width="800" height="600">
+    Your browser dose not support HTML5
+</canvas>
+<script>
+    var gl = null;
+    function getGLContext(){
+        var canvas = document.getElementById("my-first-webgl");
+        if(canvas == null){
+            alert("there is no canvas on this page");
+            return;
+        }
+        //It is imperative to check on the WebGL specification (you will find it online) for any updates regarding the naming convention
+        var names = ["webgl","experimental-webgl","webkit-3d","moz-webgl"];
+        for(var i = 0; i<names.length; ++i){
+            try{
+                gl = canvas.getContext(names[i]);
+            } catch(e){}
+            if (gl) break;
+        }
+        if(gl == null){
+            alert("WebGL is not available");
+        } else {
+            alert("Hooray! You got a WebGL context");
+        }
+    }
+</script>
+</body>
+</html>
