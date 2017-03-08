@@ -11,7 +11,35 @@
 <body>
 <script type="text/javascript" src="js/three.js"></script>
 <script type="text/javascript">
-	
+	var scene = new THREE.Scene();
+	var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000); //field of view, aspect ratio, near clipping plane, far clipping plane
+	var renderer = new THREE.WebGLRenderer();
+
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	// If you wish to keep the size of your app but render it at a lower resolution, you can do so by calling setSize with false as updateStyle (the third argument). For example, setSize(window.innerWidth/2, window.innerHeight/2, false) will render your app at half resolution, given that your <canvas> has 100% width and height.
+
+	//add the renderer element to our HTML document
+	document.body.appendChild(renderer.domElement);
+
+	var geometry = new THREE.BoxGeometry(1,1,1);
+	var material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+	//A mesh is an object that takes a geometry, and applies a material to it,
+	var cube = new THREE.Mesh(geometry, material);
+ 
+	//scene.add(), the thing we add will be added to the coordinates (0,0,0). This would cause both the camera and the cube to be inside each other. To avoid this, we simply move the camera out a bit
+	scene.add(cube);
+	camera.position.z = 5;
+
+	function render(){
+		requestAnimationFrame(render);
+		cube.rotation.x += 0.1;
+		cube.rotation.y += 0.1;
+		renderer.render(scene, camera);
+	}
+	render();
+
+
+
 </script>
 
 
