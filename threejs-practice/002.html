@@ -47,13 +47,21 @@
 	
 
 	var lights = [];
-			lights[ 0 ] = new THREE.PointLight( 0xffffff, 1, 0 );
+	lights[ 0 ] = new THREE.PointLight( 0xffffff, 1, 0 );
+	lights[ 0 ].position.set( 10, 10, 80 );
+	scene.add( lights[ 0 ] );
 
+    var loader = new THREE.TextureLoader();
+    loader.load(
+            "001.png",
+            function(texture){
+                var geometry = new THREE.SphereGeometry( 60, 20, 20 );
+                var material = new THREE.MeshBasicMaterial( { map: texture, overdraw: 0.5 } );
+                var mesh = new THREE.Mesh( geometry, material );
+                scene.add(mesh);
+            }
+    );
 
-			lights[ 0 ].position.set( 10, 10, 80 );
-
-
-			scene.add( lights[ 0 ] );
 
 	var render = function () {
 
